@@ -32,7 +32,7 @@ public class TeamService {
 	 * @return Created team
 	 */
 	public TeamDTO create(TeamCreateDTO team) {
-		return null; // TODO
+		return teamMapper.toDTO(teamRepository.create(team));
 	}
 	
 	/**
@@ -40,6 +40,6 @@ public class TeamService {
 	 * @param id Team id
 	 */
 	public void delete(long id) {
-		// TODO
+		teamRepository.delete(id);
 	}
 }

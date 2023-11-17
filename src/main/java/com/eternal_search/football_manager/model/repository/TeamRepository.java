@@ -1,18 +1,16 @@
 package com.eternal_search.football_manager.model.repository;
 
-import com.eternal_search.football_manager.model.dto.PageDTO;
-import com.eternal_search.football_manager.model.dto.PageRequestDTO;
-import com.eternal_search.football_manager.model.dto.TeamSortDTO;
+import com.eternal_search.football_manager.model.dto.*;
+import com.eternal_search.football_manager.model.entity.PlayerEntity;
 import com.eternal_search.football_manager.model.entity.TeamEntity;
 import com.eternal_search.football_manager.model.enumeration.SortMode;
-import jakarta.persistence.EntityGraph;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
+import com.eternal_search.football_manager.model.mapper.TeamMapper;
+import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Order;
 import jakarta.persistence.criteria.Root;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -26,7 +24,8 @@ import java.util.stream.Stream;
 @Repository
 @RequiredArgsConstructor
 public class TeamRepository {
-	final EntityManager entityManager;
+	private final EntityManager entityManager;
+	private final TeamMapper teamMapper;
 	
 	/**
 	 * Query team list using optional sorting and pagination
@@ -112,5 +111,35 @@ public class TeamRepository {
 						.filter(Objects::nonNull) // Discard NONE sorting criteria
 						.collect(Collectors.toList())
 		);
+	}
+	
+	/**
+	 * Create a team
+	 * @param team Team creation options
+	 * @return Newly created team
+	 */
+	@Transactional
+	public TeamEntity create(TeamCreateDTO team) {
+		TeamEntity entity = teamMapper.toEntity(team);
+		entityManager.persist(entity);
+		if (entity.getPlayers() != null) {
+			for (PlayerEntity player : entity.getPlayers()) {
+				player.setTeam(entity);
+				entityManager.persist(player);
+			}
+		}
+		return entity;
+	}
+	
+	/**
+	 * Delete a team by id
+	 * @param id Team id
+	 */
+	@Transactional
+	public void delete(long id) {
+		entityManager.createQuery("DELETE FROM TeamEntity WHERE id = :id")
+				.setParameter("id", id)
+				.executeUpdate();
+		// We don't need to delete players because of cascading
 	}
 }
