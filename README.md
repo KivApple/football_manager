@@ -55,3 +55,7 @@
 10. I use Swagger to document API and easily test endpoints from browser:
     http://localhost:8080/swagger-ui/index.html
 11. I use Hibernate Validation to check all request parameters for validity.
+12. I write JavaDocs for all functions with body, but I don't write JavaDocs
+    for DTO and entity fields, because on one hand I have very limited
+    domain knowledge according to the task and on other hand they are quite
+    self-explanatory. Finally, I have quite limited time budget for the project.
