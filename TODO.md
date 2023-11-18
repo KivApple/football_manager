@@ -9,7 +9,6 @@
 - [X] Add an endpoint for deleting a team (BONUS)
 - [X] Add an integration test which will test team creation and deletion
 - [X] Add a unit test
-- [X] Add some logging
 - [X] Return 404 if team to delete doesn't exist
 
-- [ ] Write a guide for running an app
+- [X] Write a guide for running an app

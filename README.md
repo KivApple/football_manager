@@ -23,6 +23,27 @@
 Please access http://localhost:8080/swagger-ui/index.html to have more info
 (expected parameters etc.) or look into `TeamController` class.
 
+## How to run a project
+
+First you need Java 17 to run the app.
+
+Second you need to create an empty Postgres database for the app.
+Default database URL and credentials are defined in `src/main/resources/application.properties`.
+If you want to change them you can either change them in this file or by passing environment variables
+(e.g. to override `spring.datasource.url` you can use `SPRING_DATASOURCE_URL` environment variable).
+Database needed both for normal app operation and for running tests.
+
+Project uses Gradle build system. Some useful commands:
+
+- `./gradlew bootRun` - Run an app
+- `./gradlew bootJar` - Builds JAR of the app located in `build/libs`. 
+  This JAR will contain all dependencies and can be used without any other project files.
+- `./gradlew test` - Run all tests
+
+On Windows system `./gradlew` should be replaced with `gradlew.bat`. Also, you can install Gradle globally
+and just use `gradle` command. Finally you can open the project in IntelliJ IDEA and run it using
+IDE.
+
 ## Technical decisions
 
 1. I've chosen PostgreSQL as a relational database system, because on one hand
@@ -73,3 +94,20 @@ Please access http://localhost:8080/swagger-ui/index.html to have more info
 13. Because there is no business-logic, I've written unit tests of validation 
     for `PageRequestDTO`.
 14. For integration tests I'm testing a use-case of creating a team with players and then deleting it.
+
+## Future work or points of improvement
+
+If it was a real project with more time budget, there are few things which could be done:
+
+1. Add full CRUD for teams and players: endpoints for update teams
+   (now you can only create and delete them) and separate players inside the team
+2. Add an endpoint for transfer player from one team to another
+3. Add an endpoint for query teams without players (for better performance when we don't need team details)
+4. Add an endpoint for query one team with players by its id
+5. Add integration tests for all endpoints
+6. Use Java 14 record type in place of Lombok @Data
+7. Handle UNIQUE constraint errors while creating a team and translate it to 409 Conflict HTTP error code
+8. Add an authentication (authenticated method to be defined)
+9. Write a Dockerfile for Docker deployment of the app
+10. It is possible to create a Docker Compose configuration or HELM chart to simplify deployment of both app and DB
+11. If we need more performance we could use `spring-boot-starter-webflux` to create asynchronous endpoints
