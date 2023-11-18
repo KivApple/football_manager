@@ -12,6 +12,15 @@
 - `.model.mapper` - Entity-to-DTO and DTO-to-entity mappers
 - `.model.repository` - Database access layer
 
+## Endpoints
+
+- `GET /team/list` - List all teams (sorting and pagination available)
+- `POST /team` - Create a new team
+- `DELETE /team/{id}` - Delete a team (BONUS)
+
+Please access http://localhost:8080/swagger-ui/index.html to have more info
+(expected parameters etc.) or look into `TeamController` class.
+
 ## Technical decisions
 
 1. I've chosen PostgreSQL as a relational database system, because on one hand
