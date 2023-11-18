@@ -11,6 +11,8 @@
 - `.model.dto` - DTO classes
 - `.model.mapper` - Entity-to-DTO and DTO-to-entity mappers
 - `.model.repository` - Database access layer
+- `.exception` - Custom exception classes
+- `src/test` - Unit and integration tests
 
 ## Endpoints
 
@@ -68,3 +70,6 @@ Please access http://localhost:8080/swagger-ui/index.html to have more info
     for DTO and entity fields, because on one hand I have very limited
     domain knowledge according to the task and on other hand they are quite
     self-explanatory. Finally, I have quite limited time budget for the project.
+13. Because there is no business-logic, I've written unit tests of validation 
+    for `PageRequestDTO`.
+14. For integration tests I'm testing a use-case of creating a team with players and then deleting it.

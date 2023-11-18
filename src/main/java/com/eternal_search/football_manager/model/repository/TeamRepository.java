@@ -1,5 +1,6 @@
 package com.eternal_search.football_manager.model.repository;
 
+import com.eternal_search.football_manager.exception.TeamNotFoundException;
 import com.eternal_search.football_manager.model.dto.*;
 import com.eternal_search.football_manager.model.entity.PlayerEntity;
 import com.eternal_search.football_manager.model.entity.TeamEntity;
@@ -140,9 +141,12 @@ public class TeamRepository {
 	 */
 	@Transactional
 	public void delete(long id) {
-		entityManager.createQuery("DELETE FROM TeamEntity WHERE id = :id")
+		long count = entityManager.createQuery("DELETE FROM TeamEntity WHERE id = :id")
 				.setParameter("id", id)
 				.executeUpdate();
+		if (count < 1) {
+			throw new TeamNotFoundException(id);
+		}
 		log.info("Deleted a team with id={}", id);
 		// We don't need to delete players because of cascading
 	}
