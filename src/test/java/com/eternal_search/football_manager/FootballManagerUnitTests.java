@@ -6,7 +6,7 @@ import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.Assert;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.Set;
 
@@ -25,7 +25,7 @@ public class FootballManagerUnitTests {
 				.pageSize(5)
 				.build();
 		Set<ConstraintViolation<PageRequestDTO>> errors = validator.validate(pageRequest);
-		Assert.isTrue(errors.isEmpty(), "There should be no errors");
+		assertThat(errors).isEmpty();
 	}
 	
 	/**
@@ -38,6 +38,6 @@ public class FootballManagerUnitTests {
 				.pageSize(0)
 				.build();
 		Set<ConstraintViolation<PageRequestDTO>> errors = validator.validate(pageRequest);
-		Assert.isTrue(errors.size() == 2, "There should be two errors");
+		assertThat(errors).hasSize(2);
 	}
 }

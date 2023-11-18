@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.util.Assert;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.Arrays;
 
@@ -59,11 +59,11 @@ class FootballManagerIntegrationTests {
 				.getContentAsString();
 		// Check response
 		TeamDTO team = objectMapper.readValue(responseBody, TeamDTO.class);
-		Assert.notNull(team.getId(), "Team id should not be null");
-		Assert.isTrue(team.getName().equals(request.getName()), "Team name should be equal to the request");
-		Assert.isTrue(team.getAcronym().equals(request.getAcronym()), "Team acronym should be equal to the request");
-		Assert.isTrue(team.getBudget().equals(request.getBudget()), "Team budget should be equal to the request");
-		Assert.isTrue(team.getPlayers().size() == request.getPlayers().size(), "Team player count should be equal to the request");
+		assertThat(team.getId()).isNotNull();
+		assertThat(team.getName()).isEqualTo(request.getName());
+		assertThat(team.getAcronym()).isEqualTo(request.getAcronym());
+		assertThat(team.getBudget()).isEqualTo(request.getBudget());
+		assertThat(team.getPlayers()).hasSameSizeAs(request.getPlayers());
 		// Delete team
 		mvc.perform(MockMvcRequestBuilders.delete("/team/{id}", team.getId()))
 				.andExpect(MockMvcResultMatchers.status().isOk());
