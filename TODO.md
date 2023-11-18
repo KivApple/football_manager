@@ -9,8 +9,7 @@
 - [X] Add an endpoint for deleting a team (BONUS)
 - [X] Add an integration test which will test team creation and deletion
 - [ ] Add a unit test
-- [ ] Add some logging
+- [X] Add some logging
+- [ ] Return 404 if team to delete doesn't exist
 
 - [ ] Write a guide for running an app
-- [ ] Write Dockerfile (BONUS)
-- [ ] Write Docker compose (BONUS)

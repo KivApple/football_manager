@@ -12,6 +12,7 @@ import jakarta.persistence.criteria.Order;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.Objects;
@@ -23,6 +24,7 @@ import java.util.stream.Stream;
  */
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class TeamRepository {
 	private final EntityManager entityManager;
 	private final TeamMapper teamMapper;
@@ -128,6 +130,7 @@ public class TeamRepository {
 				entityManager.persist(player);
 			}
 		}
+		log.info("Created a team with id={}", entity.getId());
 		return entity;
 	}
 	
@@ -140,6 +143,7 @@ public class TeamRepository {
 		entityManager.createQuery("DELETE FROM TeamEntity WHERE id = :id")
 				.setParameter("id", id)
 				.executeUpdate();
+		log.info("Deleted a team with id={}", id);
 		// We don't need to delete players because of cascading
 	}
 }
