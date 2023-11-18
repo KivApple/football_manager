@@ -7,7 +7,7 @@
  
 - [X] Add an endpoint for creating a new team
 - [X] Add an endpoint for deleting a team (BONUS)
-- [ ] Add an integration test which will test team creation and deletion
+- [X] Add an integration test which will test team creation and deletion
 - [ ] Add a unit test
 - [ ] Add some logging
 
