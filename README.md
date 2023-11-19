@@ -66,11 +66,14 @@ IDE.
    And we shouldn't use `REAL` to store money because of variable precision.
 5. I'm using enumerated value for player position column type, because it is
    quite unlikely that football rules would change adding/removing positions.
-   I store enumerate values as `VARCHAR` and not a number to
-   simplify manual database queries and to have possibility to extend enumeration
-   in future software updates. In case if we would expect frequent changes of
-   football rules (and don't want for user to wait a software update), we could
-   use an extra table for player positions instead of enumeration.
+   I store enumerate values as `VARCHAR` and not as a number to
+   simplify manual database queries and to have simple possibility to extend enumeration
+   in future software updates (I also could use Postgres custom enumerated type
+   e.g. `CREATE TYPE player_position AS ENUM(...)`, but native DB enumerated type isn't 
+   supported by Hibernate out of the box without extra libraries and annotations). 
+   In case if we would expect frequent changes of football rules (and don't want 
+   for user to wait a software update), we could use an extra table for player 
+   positions instead of enumeration.
 6. I created an index on `team_id` field of players table, because we need to
    be able to query players by teams and also because of cascading deletion
    of teams to players.
@@ -99,15 +102,17 @@ IDE.
 
 If it was a real project with more time budget, there are few things which could be done:
 
-1. Add full CRUD for teams and players: endpoints for update teams
+1. It is good to add teardown step for our insert-and-delete integration test which will cleanup database in case of test failure.
+   But on other hand we could assume that tests are executed in temporary environment and database will be deleted anyway.
+2. Add full CRUD for teams and players: endpoints for update teams
    (now you can only create and delete them) and separate players inside the team
-2. Add an endpoint for transfer player from one team to another
-3. Add an endpoint for query teams without players (for better performance when we don't need team details)
-4. Add an endpoint for query one team with players by its id
-5. Add integration tests for all endpoints
-6. Use Java 14 record type in place of Lombok @Data
-7. Handle UNIQUE constraint errors while creating a team and translate it to 409 Conflict HTTP error code
-8. Add an authentication (authenticated method to be defined)
-9. Write a Dockerfile for Docker deployment of the app
-10. It is possible to create a Docker Compose configuration or HELM chart to simplify deployment of both app and DB
-11. If we need more performance we could use `spring-boot-starter-webflux` to create asynchronous endpoints
+3. Add an endpoint for transfer player from one team to another
+4. Add an endpoint for query teams without players (for better performance when we don't need team details)
+5. Add an endpoint for query one team with players by its id
+6. Add integration tests for all endpoints
+7. Use Java 14 record type in place of Lombok @Data
+8. Handle UNIQUE constraint errors while creating a team and translate it to 409 Conflict HTTP error code
+9. Add an authentication (authenticated method to be defined)
+10. Write a Dockerfile for Docker deployment of the app
+11. It is possible to create a Docker Compose configuration or HELM chart to simplify deployment of both app and DB
+12. If we need more performance we could use `spring-boot-starter-webflux` to create asynchronous endpoints
