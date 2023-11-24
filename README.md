@@ -1,5 +1,7 @@
 # football_manager
 
+Test project made for job interview
+
 ## Project structure
 
 - `com.eternal_search.football_manager` - Root app package
